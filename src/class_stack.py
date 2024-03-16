@@ -1,11 +1,23 @@
 class Category:
     numbers_of_category = 0
+    __ware_list = []
 
     def __init__(self, name, description, ware):
         self.name = name
         self.description = description
         self.ware = ware
         Category.numbers_of_category += 1
+
+    def __add_ware(self):
+        self.__ware_list.append(self.name)
+
+    @property
+    def ware_list(self):
+        products_list = []
+        for product in self.ware:
+            if product not in products_list:
+                products_list.append(f"{product.name}, {product.price} руб. Остаток: {product.number_of} шт.")
+        return products_list
 
 
 class Product:
@@ -17,3 +29,17 @@ class Product:
         self.price = price
         self.number_of = number_of
         Product.numbers_of_products += 1
+
+    @price.setter
+    def price(self, new_price):
+        if new_price > 0:
+            if new_price >= self._price:
+                self._price = new_price
+                print("Успешно")
+            elif new_price < self._price and input("Вы хотите понизить цену? y/n") == 'y':
+                self._price = new_price
+                print("Цена понижена")
+            else:
+                print("Отмена")
+        else:
+            print("Введена некорректная цена")
