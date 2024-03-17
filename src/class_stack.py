@@ -1,11 +1,12 @@
 class Category:
     numbers_of_category = 0
+    "Список товаров"
     __ware_list = []
 
-    def __init__(self, name, description, ware):
+    def __init__(self, name, description, wares):
         self.name = name
         self.description = description
-        self.ware = ware
+        self.wares = wares
         Category.numbers_of_category += 1
 
     def __add_ware(self):
@@ -18,6 +19,9 @@ class Category:
             if product not in products_list:
                 products_list.append(f"{product.name}, {product.price} руб. Остаток: {product.number_of} шт.")
         return products_list
+
+    def __str__(self):
+        return f"{self.name}, количество продуктов: {self.wares}"
 
 
 class Product:
@@ -43,3 +47,7 @@ class Product:
                 print("Отмена")
         else:
             print("Введена некорректная цена")
+
+    @property
+    def __str__(self):
+        return f"{self.name}, {self.price} руб. Остаток: {self.number_of} шт."

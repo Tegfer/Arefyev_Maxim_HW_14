@@ -5,4 +5,4 @@ def test_category():
     amber = Category("Amber", "crystallized sap", 500)
     assert amber.name == "Amber"
     assert amber.description == "crystallized sap"
-    assert amber.ware == 500
+    assert amber.wares == 500
