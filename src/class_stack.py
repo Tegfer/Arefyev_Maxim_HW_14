@@ -1,29 +1,29 @@
 class Category:
     numbers_of_category = 0
     "Список товаров"
-    __ware_list = []
+    __products = []
 
-    def __init__(self, name, description, wares):
+    def __init__(self, name, description, product):
         self.name = name
         self.description = description
-        self.wares = wares
+        self.__products = product
         Category.numbers_of_category += 1
 
     def add_ware(self, wares):
-        if wares not in self.wares:
-            self.wares.append(wares)
-        return self.wares
+        if wares not in self.__products:
+            self.__products.append(wares)
+        return self.__products
 
     @property
     def ware_list(self):
         products_list = []
-        for product in self.wares:
+        for product in self.__products:
             if product not in products_list:
                 products_list.append(f"{product.name}, {product.price} руб. Остаток: {product.number_of} шт.")
         return products_list
 
     def __str__(self):
-        return f"{self.name}, количество продуктов: {self.wares}"
+        return f"{self.name}, количество продуктов: {self.__products}"
 
     def __len__(self):
         return f"{self.name}, колличество продуктов: {len(Product.self.quantity)}"
@@ -38,6 +38,18 @@ class Product:
         self._price = price
         self.quantity = quantity
         Product.numbers_of_products += 1
+
+    @classmethod
+    def add_product(cls, product):
+        added_product = cls(product["name"], product["description"], product["price"], product["quantity"])
+
+        for i in cls.__products:
+            if i.name == added_product.name:
+                i.quantity += added_product.quantity
+                i._price = max(i._price, added_product._price)
+                return i
+        cls.__products.append(added_product)
+        return added_product
 
     @price.setter
     def price(self, new_price):
