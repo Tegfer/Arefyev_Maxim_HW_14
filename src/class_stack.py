@@ -26,7 +26,7 @@ class Category:
         return f"{self.name}, количество продуктов: {self.__products}"
 
     def __len__(self):
-        return f"{self.name}, колличество продуктов: {len(Product.self.quantity)}"
+        return f"{self.name}, колличество продуктов: {len(self.__products)}"
 
 
 class Product:
