@@ -31,6 +31,7 @@ class Category:
 
 class Product:
     numbers_of_products = 0
+    __products = []
 
     def __init__(self, name, description, price, quantity):
         self.name = name
@@ -44,10 +45,16 @@ class Product:
         added_product = cls(product["name"], product["description"], product["price"], product["quantity"])
 
         for i in cls.__products:
-            if i.name == added_product.name:
-                i.quantity += added_product.quantity
-                i._price = max(i._price, added_product._price)
-                return i
+            if type(i) is Product:
+                if isinstance(i,Product) is False:
+                    if i.name == added_product.name:
+                        i.quantity += added_product.quantity
+                        i._price = max(i._price, added_product._price)
+                        return i
+                else:
+                    print("Ошибка подкласса")
+            else:
+                print("Ошибка типа")
         cls.__products.append(added_product)
         return added_product
 
