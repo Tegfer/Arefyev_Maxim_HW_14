@@ -46,10 +46,13 @@ class Product:
 
         for i in cls.__products:
             if type(i) is Product:
-                if i.name == added_product.name:
-                    i.quantity += added_product.quantity
-                    i._price = max(i._price, added_product._price)
-                    return i
+                if isinstance(i,Product) is False:
+                    if i.name == added_product.name:
+                        i.quantity += added_product.quantity
+                        i._price = max(i._price, added_product._price)
+                        return i
+                else:
+                    print("Ошибка подкласса")
             else:
                 print("Ошибка типа")
         cls.__products.append(added_product)
