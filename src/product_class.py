@@ -23,6 +23,11 @@ class Smartphone(Product):
         cls.__smartphone.append(added_product)
         return added_product
 
+    def __add__(self, other):
+        if isinstance(other, Smartphone):
+            return self._price * self.quantity + other._price * other.quantity
+        return print("Нельзя складывать товары из разных категорий")
+
 
 class LawnGrass(Product):
     __lawn_grass = []
@@ -44,3 +49,8 @@ class LawnGrass(Product):
                 return i
         cls.__lawn_grass.append(added_product)
         return added_product
+
+    def __add__(self, other):
+        if isinstance(other, LawnGrass):
+            return self._price * self.quantity + other._price * other.quantity
+        return print("Нельзя складывать товары из разных категорий")

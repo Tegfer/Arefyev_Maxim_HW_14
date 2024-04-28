@@ -43,18 +43,17 @@ class Product:
     @classmethod
     def add_product(cls, product):
         added_product = cls(product["name"], product["description"], product["price"], product["quantity"])
-
-        for i in cls.__products:
-            if type(i) is Product:
-                if isinstance(i,Product) is False:
+        if not issubclass(i, Product):
+            if isinstance(i,Product):
+                for i in cls.__products:
                     if i.name == added_product.name:
-                        i.quantity += added_product.quantity
-                        i._price = max(i._price, added_product._price)
-                        return i
-                else:
-                    print("Ошибка подкласса")
+                    i.quantity += added_product.quantity
+                    i._price = max(i._price, added_product._price)
+                return i
             else:
-                print("Ошибка типа")
+                return f"Нельзя добавить в продукты"
+        else:
+            return f"Нельзя добавить из подкатегории"
         cls.__products.append(added_product)
         return added_product
 
@@ -77,4 +76,6 @@ class Product:
         return f"{self.name}, {self._price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        return self._price * self.quantity + other._price * other.quantity
+        if isinstance(other, Product):
+            return self._price * self.quantity + other._price * other.quantity
+        return print("Нельзя складывать товары из разных категорий")
