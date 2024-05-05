@@ -1,7 +1,7 @@
-from class_stack import Product
+from class_stack import Product, AbstractProduct, MixinLog
 
 
-class Smartphone(Product):
+class Smartphone(Product, AbstractProduct, MixinLog):
     __smartphone = []
 
     def __init__(self, name, description, price, quantity, efficiency, model, internal_storage, color):
@@ -11,25 +11,8 @@ class Smartphone(Product):
         self.internal_storage = internal_storage
         self.color = color
 
-    @classmethod
-    def add_product(cls, product):
-        added_product = cls(product["name"], product["description"], product["price"], product["quantity"], product["efficiency"], product["model"], product["internal_storage"], product["color"])
 
-        for i in cls.__smartphone:
-            if i.name == added_product.name:
-                i.quantity += added_product.quantity
-                i._price = max(i._price, added_product._price)
-                return i
-        cls.__smartphone.append(added_product)
-        return added_product
-
-    def __add__(self, other):
-        if isinstance(other, Smartphone):
-            return self._price * self.quantity + other._price * other.quantity
-        return print("Нельзя складывать товары из разных категорий")
-
-
-class LawnGrass(Product):
+class LawnGrass(Product, AbstractProduct, MixinLog):
     __lawn_grass = []
 
     def __init__(self, name, description, price, quantity, manufacturer, germination_rate, color):
@@ -37,20 +20,3 @@ class LawnGrass(Product):
         self.manufacturer = manufacturer
         self.germination_rate = germination_rate
         self.color = color
-
-    @classmethod
-    def add_product(cls, product):
-        added_product = cls(product["name"], product["description"], product["price"], product["quantity"], product["manufacturer"], product["germination_rate"], product["color"])
-
-        for i in cls.__lawn_grass:
-            if i.name == added_product.name:
-                i.quantity += added_product.quantity
-                i._price = max(i._price, added_product._price)
-                return i
-        cls.__lawn_grass.append(added_product)
-        return added_product
-
-    def __add__(self, other):
-        if isinstance(other, LawnGrass):
-            return self._price * self.quantity + other._price * other.quantity
-        return print("Нельзя складывать товары из разных категорий")

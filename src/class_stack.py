@@ -1,3 +1,6 @@
+from abc import ABC, abstractmethod
+
+
 class Category:
     numbers_of_category = 0
     "Список товаров"
@@ -28,8 +31,22 @@ class Category:
     def __len__(self):
         return f"{self.name}, колличество продуктов: {len(self.__products)}"
 
+class AbstractProduct(ABC):
+    @abstractmethod
+    def __init__(self):
+        pass
 
-class Product:
+    @classmethod
+    def add_product(cls, product):
+        pass
+
+class MixinLog:
+    def __repr__(self):
+        attributes = [f"{k}={repr(v)}" for k, v in self.__dict__.items()]
+        return f"Создан объект {self.__class__.__name__}({', '.join(attributes)})"
+
+
+class Product(AbstractProduct, MixinLog):
     numbers_of_products = 0
     __products = []
 
@@ -47,7 +64,7 @@ class Product:
             if isinstance(i,Product):
                 for i in cls.__products:
                     if i.name == added_product.name:
-                    i.quantity += added_product.quantity
+                        i.quantity += added_product.quantity
                     i._price = max(i._price, added_product._price)
                 return i
             else:
