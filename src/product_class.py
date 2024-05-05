@@ -1,7 +1,7 @@
-from class_stack import Product
+from class_stack import Product, AbstractProduct
 
 
-class Smartphone(Product):
+class Smartphone(Product, AbstractProduct):
     __smartphone = []
 
     def __init__(self, name, description, price, quantity, efficiency, model, internal_storage, color):
@@ -29,7 +29,7 @@ class Smartphone(Product):
         return print("Нельзя складывать товары из разных категорий")
 
 
-class LawnGrass(Product):
+class LawnGrass(Product, AbstractProduct):
     __lawn_grass = []
 
     def __init__(self, name, description, price, quantity, manufacturer, germination_rate, color):

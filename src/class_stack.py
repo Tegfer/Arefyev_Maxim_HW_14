@@ -1,3 +1,6 @@
+from abc import ABC, abstractmethod
+
+
 class Category:
     numbers_of_category = 0
     "Список товаров"
@@ -28,8 +31,17 @@ class Category:
     def __len__(self):
         return f"{self.name}, колличество продуктов: {len(self.__products)}"
 
+class AbstractProduct(ABC):
+    @abstractmethod
+    def __init__(self):
+        pass
 
-class Product:
+    @classmethod
+    def add_product(cls, product):
+        pass
+
+
+class Product(AbstractProduct):
     numbers_of_products = 0
     __products = []
 
