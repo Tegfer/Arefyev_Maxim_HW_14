@@ -40,8 +40,13 @@ class AbstractProduct(ABC):
     def add_product(cls, product):
         pass
 
+class MixinLog:
+    def __repr__(self):
+        attributes = [f"{k}={repr(v)}" for k, v in self.__dict__.items()]
+        return f"Создан объект {self.__class__.__name__}({', '.join(attributes)})"
 
-class Product(AbstractProduct):
+
+class Product(AbstractProduct, MixinLog):
     numbers_of_products = 0
     __products = []
 
@@ -59,7 +64,7 @@ class Product(AbstractProduct):
             if isinstance(i,Product):
                 for i in cls.__products:
                     if i.name == added_product.name:
-                    i.quantity += added_product.quantity
+                        i.quantity += added_product.quantity
                     i._price = max(i._price, added_product._price)
                 return i
             else:
