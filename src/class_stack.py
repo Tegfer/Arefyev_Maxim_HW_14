@@ -31,6 +31,13 @@ class Category:
     def __len__(self):
         return f"{self.name}, колличество продуктов: {len(self.__products)}"
 
+    def avg_price(self):
+        try:
+            avg_price = round(sum([i._price for i in self.__products]) / len(self.__products), 2)
+            return avg_price
+        except ZeroDivisionError:
+            return 0
+
 
 class AbstractProduct(ABC):
     @abstractmethod
