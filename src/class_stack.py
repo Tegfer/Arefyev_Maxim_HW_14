@@ -31,6 +31,7 @@ class Category:
     def __len__(self):
         return f"{self.name}, колличество продуктов: {len(self.__products)}"
 
+
 class AbstractProduct(ABC):
     @abstractmethod
     def __init__(self):
@@ -39,6 +40,7 @@ class AbstractProduct(ABC):
     @classmethod
     def add_product(cls, product):
         pass
+
 
 class MixinLog:
     def __repr__(self):
@@ -61,7 +63,7 @@ class Product(AbstractProduct, MixinLog):
     def add_product(cls, product):
         added_product = cls(product["name"], product["description"], product["price"], product["quantity"])
         if not issubclass(i, Product):
-            if isinstance(i,Product):
+            if isinstance(i, Product):
                 for i in cls.__products:
                     if i.name == added_product.name:
                         i.quantity += added_product.quantity
@@ -73,6 +75,25 @@ class Product(AbstractProduct, MixinLog):
             return f"Нельзя добавить из подкатегории"
         cls.__products.append(added_product)
         return added_product
+
+    @classmethod
+    def zero_exception(cls, product):
+        try:
+            if product.quantity > 0:
+                for i in cls.__products:
+                    if i.name == product.name:
+                        i.quantity += product.quantity
+                        i._price = max(i._price, product._price)
+                        return i
+                cls.__products.append(product)
+                return product
+            raise ZeroProductQuantity()
+        except ZeroProductQuantity as e:
+            print(e)
+        else:
+            print("Товар добавлен")
+        finally:
+            print("Обработка товара завершена")
 
     @price.setter
     def price(self, new_price):
@@ -96,3 +117,11 @@ class Product(AbstractProduct, MixinLog):
         if isinstance(other, Product):
             return self._price * self.quantity + other._price * other.quantity
         return print("Нельзя складывать товары из разных категорий")
+
+
+class ZeroProductQuantity(Exception):
+    def __init__(self, *args, **kwargs):
+        self.message = args[0] if args else "Количество товара не может быть менее 1"
+
+    def __str__(self):
+        return self.message
