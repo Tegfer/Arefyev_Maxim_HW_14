@@ -2,7 +2,7 @@ from src.class_stack import Category
 
 
 def test_category():
-    amber = Category("Amber", "crystallized sap", 500)
-    assert amber.name == "Amber"
-    assert amber.description == "crystallized sap"
-    assert amber.__products == 500
+    amber = Category("Jewelery", "Raw gems", 5)
+    assert amber.name == "Jewelery"
+    assert amber.description == "Raw gems"
+    assert amber.__products == 5
