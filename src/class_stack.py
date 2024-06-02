@@ -6,10 +6,10 @@ class Category:
     "Список товаров"
     __products = []
 
-    def __init__(self, name, description, product):
+    def __init__(self, name, description, number_of_products):
         self.name = name
         self.description = description
-        self.__products = product
+        self.__products = number_of_products
         Category.numbers_of_category += 1
 
     def add_ware(self, wares):
