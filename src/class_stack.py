@@ -39,6 +39,14 @@ class Category:
             return 0
 
 
+class ZeroProductQuantity(Exception):
+    def __init__(self, *args, **kwargs):
+        self.message = args[0] if args else "Количество товара не может быть менее 1"
+
+    def __str__(self):
+        return self.message
+
+
 class AbstractProduct(ABC):
     @abstractmethod
     def __init__(self):
@@ -69,17 +77,18 @@ class Product(AbstractProduct, MixinLog):
     @classmethod
     def add_product(cls, product):
         added_product = cls(product["name"], product["description"], product["price"], product["quantity"])
-        if not issubclass(i, Product):
-            if isinstance(i, Product):
-                for i in cls.__products:
+        for i in cls.__products:
+            if not issubclass(i, Product):
+                if isinstance(i, Product):
+
                     if i.name == added_product.name:
                         i.quantity += added_product.quantity
                     i._price = max(i._price, added_product._price)
-                return i
+                    return i
+                else:
+                    return f"Нельзя добавить в продукты"
             else:
-                return f"Нельзя добавить в продукты"
-        else:
-            return f"Нельзя добавить из подкатегории"
+                return f"Нельзя добавить из подкатегории"
         cls.__products.append(added_product)
         return added_product
 
