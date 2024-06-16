@@ -33,7 +33,7 @@ class Category:
 
     def avg_price(self):
         try:
-            avg_price = round(sum([i._price for i in self.__products]) / len(self.__products), 2)
+            avg_price = round(sum([i.price for i in self.__products]) / len(self.__products), 2)
             return avg_price
         except ZeroDivisionError:
             return 0
@@ -106,8 +106,6 @@ class Product(AbstractProduct, MixinLog):
             raise ZeroProductQuantity()
         except ZeroProductQuantity as e:
             print(e)
-        else:
-            print("Товар добавлен")
         finally:
             print("Обработка товара завершена")
 
@@ -124,6 +122,11 @@ class Product(AbstractProduct, MixinLog):
                 print("Отмена")
         else:
             print("Введена некорректная цена")
+
+
+    @property
+    def price(self):
+        return self._price
 
     @property
     def __str__(self):
