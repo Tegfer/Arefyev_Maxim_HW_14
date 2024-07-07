@@ -75,37 +75,22 @@ class Product(AbstractProduct, MixinLog):
         Product.numbers_of_products += 1
 
     @classmethod
-    def add_product(cls, product):
-        added_product = cls(product["name"], product["description"], product["price"], product["quantity"])
-        for i in cls.__products:
-            if not issubclass(i, Product):
-                if isinstance(i, Product):
-
-                    if i.name == added_product.name:
-                        i.quantity += added_product.quantity
-                    i._price = max(i._price, added_product._price)
-                    return i
-                else:
-                    return f"Нельзя добавить в продукты"
-            else:
-                return f"Нельзя добавить из подкатегории"
-        cls.__products.append(added_product)
-        return added_product
-
-    @classmethod
-    def zero_exception(cls, product):
+    def add_product(cls, ware):
+        prdct = cls(**ware)
         try:
-            if product.quantity > 0:
+            if prdct.quantity > 0:
                 for i in cls.__products:
-                    if i.name == product.name:
-                        i.quantity += product.quantity
-                        i._price = max(i._price, product._price)
+                    if i.name == prdct.name:
+                        i.quantity += prdct.quantity
+                        i._price = max(i._price, prdct._price)
                         return i
-                cls.__products.append(product)
-                return product
+                cls.__products.append(prdct)
+                return prdct
             raise ZeroProductQuantity()
         except ZeroProductQuantity as e:
             print(e)
+        else:
+            print("Товар добавлен")
         finally:
             print("Обработка товара завершена")
 
@@ -122,7 +107,6 @@ class Product(AbstractProduct, MixinLog):
                 print("Отмена")
         else:
             print("Введена некорректная цена")
-
 
     @property
     def price(self):
